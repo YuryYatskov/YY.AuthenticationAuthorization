@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basics", "Basics\Basics.csproj", "{C4E32743-2D7B-2ECC-6276-ED7BF53ABE36}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Role2", "Role2\Role2.csproj", "{307AFC19-DB1F-51A7-9BC6-CF6F0A7B49CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{5D2C7CAA-D63E-7440-65F5-3727EF6D6D5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTBearer", "JWTBearer\JWTBearer.csproj", "{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5D2C7CAA-D63E-7440-65F5-3727EF6D6D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D2C7CAA-D63E-7440-65F5-3727EF6D6D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D2C7CAA-D63E-7440-65F5-3727EF6D6D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
