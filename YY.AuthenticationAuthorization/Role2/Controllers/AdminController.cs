@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Security.Claims;
 
 namespace Role2.Controllers
