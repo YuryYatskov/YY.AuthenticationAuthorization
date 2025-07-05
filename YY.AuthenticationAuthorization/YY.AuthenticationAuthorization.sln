@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTBearer", "JWTBearer\JWTBearer.csproj", "{CADFEBBA-583E-4085-830B-18AE0DA1B3C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basics", "Basics", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C4E32743-2D7B-2ECC-6276-ED7BF53ABE36} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{72573752-94C5-4558-1D66-212559EAEE5B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{307AFC19-DB1F-51A7-9BC6-CF6F0A7B49CF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5D2C7CAA-D63E-7440-65F5-3727EF6D6D5B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CADFEBBA-583E-4085-830B-18AE0DA1B3C9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B86D390B-6861-485C-82F5-37E6F4E5798D}
