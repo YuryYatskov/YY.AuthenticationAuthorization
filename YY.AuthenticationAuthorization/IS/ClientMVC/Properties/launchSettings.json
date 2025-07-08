@@ -1,0 +1,14 @@
+﻿{
+  "profiles": {
+    "ClientMVC": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "launchBrowser": true,
+      "launchUrl": "site/index",
+      "applicationUrl": "https://localhost:7025;http://localhost:7024",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

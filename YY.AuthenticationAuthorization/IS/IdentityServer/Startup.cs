@@ -1,39 +1,59 @@
+using IdentityServer.Data;
+using IdentityServer.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace IdentityServer
+namespace IdentityServer;
+
+public class Startup
 {
-    public class Startup
+    public void ConfigureServices(IServiceCollection services)
     {
-        public void ConfigureServices(IServiceCollection services)
+        services.AddDbContext<ApplicationDbContext>(config =>
         {
-            services.AddIdentityServer()
-                .AddInMemoryClients(IdentityServerConfiguration.GetClients())
-                .AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())
-                .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
-                .AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
-                .AddDeveloperSigningCredential();
+            config.UseInMemoryDatabase("MEMORY");
+        })
+            .AddIdentity<ApplicationUser, ApplicationRole>(config =>
+            {
+                config.Password.RequireDigit = false;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddControllersWithViews();
+        services.AddIdentityServer(options =>
+        {
+            options.UserInteraction.LoginUrl = "/Auth/Login";
+        })
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddInMemoryClients(IdentityServerConfiguration.GetClients())
+            .AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())
+            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
+            .AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
+            .AddDeveloperSigningCredential();
+
+        services.AddControllersWithViews();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseRouting();
+
+        app.UseIdentityServer();
+
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            app.UseIdentityServer();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
-        }
+            endpoints.MapDefaultControllerRoute();
+        });
     }
 }

@@ -22,12 +22,29 @@ namespace IdentityServer
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile
                 }
+            },
+            new Client
+            {
+                ClientId = "client_id_mvc",
+                ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowedScopes =
+                {
+                    "OrdersApi",
+                    //"UserApi"
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile
+                },
+
+                RedirectUris = { "https://localhost:7025/signin-oidc" },
+                RequireConsent = false,
             }
         };
 
         public static IEnumerable<ApiResource> GetApiResources()
         {
             yield return new ApiResource("OrdersApi");
+            yield return new ApiResource("ClientMvc");
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -39,6 +56,7 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> GetApiScopes()
         {
             yield return new ApiScope("OrdersApi", "Orders API");
+            yield return new ApiScope("ClientMvc", "Client MVC");
         }
     }
 }
