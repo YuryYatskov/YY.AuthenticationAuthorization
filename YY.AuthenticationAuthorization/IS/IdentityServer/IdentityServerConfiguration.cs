@@ -38,6 +38,8 @@ namespace IdentityServer
 
                 RedirectUris = { "https://localhost:7025/signin-oidc" },
                 RequireConsent = false,
+
+                //AlwaysIncludeUserClaimsInIdToken = true,
             }
         };
 

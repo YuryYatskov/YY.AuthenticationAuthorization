@@ -1,8 +1,13 @@
+using ClientMVC.Infrastructure.Auth;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net;
+using System.Security.Claims;
 
 namespace ClientMVC
 {
@@ -23,9 +28,35 @@ namespace ClientMVC
                     config.ClientSecret = "client_secret_mvc";
                     config.SaveTokens = true;
                     config.ResponseType = "code";
+
+                    config.Scope.Add("OrdersApi");
+
+                    config.GetClaimsFromUserInfoEndpoint = true;
+
+                    // config.ClaimActions.MapAll();
+                    config.ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, ClaimTypes.DateOfBirth);
                 });
 
-            services.AddControllersWithViews();
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("HasDateOfBirth", builder =>
+                {
+                    builder.RequireClaim(ClaimTypes.DateOfBirth);
+                });
+
+                //config.AddPolicy("OlderThan", builder =>
+                //{
+                //    builder.AddRequirements(new OlderThanRequirement(10));
+                //});
+            });
+
+            services.AddSingleton<IAuthorizationHandler, OlderThanRequirementHandler>();
+            services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+
+            services.AddHttpClient();
+
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

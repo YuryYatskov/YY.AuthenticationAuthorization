@@ -1,5 +1,6 @@
 using IdentityServer.Data;
 using IdentityServer.Entities;
+using IdentityServer.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ public class Startup
             .AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())
             .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
             .AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
+            .AddProfileService<ProfileService>()
             .AddDeveloperSigningCredential();
 
         services.AddControllersWithViews();
