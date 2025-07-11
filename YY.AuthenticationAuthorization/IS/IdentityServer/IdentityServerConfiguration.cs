@@ -40,6 +40,10 @@ namespace IdentityServer
                 RequireConsent = false,
 
                 //AlwaysIncludeUserClaimsInIdToken = true,
+
+                AccessTokenLifetime = 5,
+
+                AllowOfflineAccess = true,
             }
         };
 
