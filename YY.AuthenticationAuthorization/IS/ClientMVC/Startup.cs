@@ -1,6 +1,7 @@
 using ClientMVC.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,15 +21,19 @@ namespace ClientMVC
             services.AddAuthentication(config =>
             {
                 config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                config.DefaultChallengeScheme = "oidc";
+                config.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme; // "oidc";
             })
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect("oidc", config =>
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme /*"oidc"*/, config =>
                 {
                     config.Authority = "https://localhost:10001";
                     config.ClientId = "client_id_mvc";
                     config.ClientSecret = "client_secret_mvc";
                     config.SaveTokens = true;
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
                     config.ResponseType = "code";
 
                     config.Scope.Add("OrdersApi");
@@ -58,8 +63,8 @@ namespace ClientMVC
 
             services.AddHttpClient();
 
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+                //.AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,7 +81,10 @@ namespace ClientMVC
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(
+                    name: "Default",
+                    pattern: "{controller=Site}/{action=Index}/{id?}");
             });
         }
     }

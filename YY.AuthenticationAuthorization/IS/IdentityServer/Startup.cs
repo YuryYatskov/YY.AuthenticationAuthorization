@@ -27,10 +27,18 @@ public class Startup
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        services.AddIdentityServer(options =>
+        services.ConfigureApplicationCookie(config =>
         {
-            options.UserInteraction.LoginUrl = "/Auth/Login";
-        })
+            config.LoginPath = "/Auth/Login";
+            config.LogoutPath = "/Auth/Logout";
+            config.Cookie.Name = "IdentityServer.Cookies";
+        });
+
+        services.AddIdentityServer()
+        //    options =>
+        //{
+        //    options.UserInteraction.LoginUrl = "/Auth/Login";
+        //})
             .AddAspNetIdentity<ApplicationUser>()
             .AddInMemoryClients(IdentityServerConfiguration.GetClients())
             .AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())

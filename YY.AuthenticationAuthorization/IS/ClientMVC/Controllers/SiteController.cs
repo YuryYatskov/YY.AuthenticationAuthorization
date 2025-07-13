@@ -2,18 +2,11 @@
 using Duende.IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Text;
-//using System.Text.Json;
-//using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ClientMVC.Controllers;
@@ -32,6 +25,25 @@ public class SiteController : Controller
     public IActionResult Index()
     {
         return View();
+    }
+
+    [Route("[action]")]
+    public IActionResult GoodBye()
+    {
+        return View();
+    }
+
+    [Route("[action]")]
+    public IActionResult Logout()
+    {
+        var parameters = new AuthenticationProperties
+        {
+            RedirectUri = "/Site/GoodBye"
+        };
+        return SignOut(
+            parameters,
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [Authorize]

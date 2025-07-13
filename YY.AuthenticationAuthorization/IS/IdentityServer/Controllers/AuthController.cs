@@ -1,4 +1,5 @@
-﻿using IdentityServer.Entities;
+﻿using Duende.IdentityServer.Services;
+using IdentityServer.Entities;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +12,40 @@ namespace IdentityServer.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IIdentityServerInteractionService identityServerInteractionService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _identityServerInteractionService = identityServerInteractionService;
+        }
+
+        [Route("[action]")]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            await _signInManager.SignOutAsync();
+            var logoutResult = await _identityServerInteractionService.GetLogoutContextAsync(logoutId);
+            if (string.IsNullOrEmpty(logoutResult.PostLogoutRedirectUri))
+            { 
+                return RedirectToAction("Index", "Site");
+            }
+
+            return Redirect(logoutResult.PostLogoutRedirectUri);
         }
 
         [Route("[action]")]
         public IActionResult Login(string returnUrl)
         {
-            return View();
+            return View(new LoginViewModel
+            { 
+                UserName = "Vika",
+                Password = "123qwe",
+                ReturnUrl = returnUrl
+            });
         }
 
         [HttpPost]

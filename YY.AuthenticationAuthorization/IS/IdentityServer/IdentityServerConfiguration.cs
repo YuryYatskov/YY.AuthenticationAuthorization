@@ -37,6 +37,7 @@ namespace IdentityServer
                 },
 
                 RedirectUris = { "https://localhost:7025/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:7025/signout-callback-oidc" },
                 RequireConsent = false,
 
                 //AlwaysIncludeUserClaimsInIdToken = true,
