@@ -1,7 +1,11 @@
-﻿using IdentityServer.Entities;
+﻿using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.Mappers;
+using IdentityServer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace IdentityServer.Data;
@@ -33,5 +37,36 @@ public static class DatabaseInitialize
         }
         //context.Users.Add(user);
         //context.SaveChanges();
+
+        serviceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+        var context = serviceProvider.GetRequiredService<ConfigurationDbContext>();
+        context.Database.Migrate();
+        if (!context.Clients.Any())
+        {
+            foreach (var client in IdentityServerConfiguration.GetClients())
+            {
+                context.Clients.Add(client.ToEntity());
+            }
+            context.SaveChanges();
+        }
+
+        if (!context.IdentityResources.Any())
+        {
+            foreach (var resource in IdentityServerConfiguration.GetIdentityResources())
+            {
+                context.IdentityResources.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
+
+        if (!context.ApiResources.Any())
+        {
+            foreach (var resource in IdentityServerConfiguration.GetApiResources())
+            {
+                context.ApiResources.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
     }
 }

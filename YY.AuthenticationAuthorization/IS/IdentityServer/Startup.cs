@@ -4,18 +4,21 @@ using IdentityServer.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace IdentityServer;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<ApplicationDbContext>(config =>
         {
-            config.UseInMemoryDatabase("MEMORY");
+            //config.UseInMemoryDatabase("MEMORY"); <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.18"
+            config.UseSqlServer(configuration.GetConnectionString("Database"));
         })
             .AddIdentity<ApplicationUser, ApplicationRole>(config =>
             {
@@ -34,16 +37,29 @@ public class Startup
             config.Cookie.Name = "IdentityServer.Cookies";
         });
 
+        var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
         services.AddIdentityServer()
         //    options =>
         //{
         //    options.UserInteraction.LoginUrl = "/Auth/Login";
         //})
             .AddAspNetIdentity<ApplicationUser>()
-            .AddInMemoryClients(IdentityServerConfiguration.GetClients())
-            .AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())
-            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
-            .AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = b =>
+                    b.UseSqlServer(configuration.GetConnectionString("Database"),
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = b =>
+                    b.UseSqlServer(configuration.GetConnectionString("Database"),
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
+            })
+            //.AddInMemoryClients(IdentityServerConfiguration.GetClients())
+            //.AddInMemoryApiResources(IdentityServerConfiguration.GetApiResources())
+            //.AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
+            //.AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
             .AddProfileService<ProfileService>()
             .AddDeveloperSigningCredential();
 
