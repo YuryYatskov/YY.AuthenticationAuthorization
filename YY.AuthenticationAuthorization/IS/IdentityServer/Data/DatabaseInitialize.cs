@@ -2,7 +2,6 @@
 using Duende.IdentityServer.EntityFramework.Mappers;
 using IdentityServer.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -38,10 +37,10 @@ public static class DatabaseInitialize
         //context.Users.Add(user);
         //context.SaveChanges();
 
-        serviceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+        //serviceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
         var context = serviceProvider.GetRequiredService<ConfigurationDbContext>();
-        context.Database.Migrate();
+        //context.Database.Migrate();
         if (!context.Clients.Any())
         {
             foreach (var client in IdentityServerConfiguration.GetClients())
