@@ -68,5 +68,14 @@ public static class DatabaseInitialize
             }
             context.SaveChanges();
         }
+
+        if (!context.ApiScopes.Any())
+        {
+            foreach (var resource in IdentityServerConfiguration.GetApiScopes())
+            {
+                context.ApiScopes.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
     }
 }
