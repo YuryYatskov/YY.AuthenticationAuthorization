@@ -1,8 +1,5 @@
 using Duende.IdentityModel;
-using Duende.IdentityServer;
-using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Test;
 using IdentityServerAPI.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

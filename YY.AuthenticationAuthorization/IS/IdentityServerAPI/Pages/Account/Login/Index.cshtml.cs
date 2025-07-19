@@ -3,7 +3,6 @@ using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
-using Duende.IdentityServer.Test;
 using IdentityServerAPI.Data;
 using IdentityServerAPI.Entities;
 using Microsoft.AspNetCore.Authentication;

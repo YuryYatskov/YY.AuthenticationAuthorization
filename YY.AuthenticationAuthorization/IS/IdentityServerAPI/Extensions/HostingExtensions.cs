@@ -3,6 +3,7 @@ using IdentityServerAPI.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IdentityServerAPI.Extensions;
 
@@ -26,19 +27,19 @@ public static class HostingExtensions
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        var filePath = Path.Combine(builder.Environment.ContentRootPath, "IS_certificate.pfx");
+        var certificate = new X509Certificate2(filePath, "Qwe123@"); 
+
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
         builder.Services
             .AddIdentityServer(options =>
             {
-                //options.Events.RaiseErrorEvents = true;
-                //options.Events.RaiseInformationEvents = true;
-                //options.Events.RaiseFailureEvents = true;
-                //options.Events.RaiseSuccessEvents = true;
-                //options.EmitStaticAudienceClaim = true;
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.EmitStaticAudienceClaim = true;
             })
-            //.AddInMemoryIdentityResources(Config.IdentityResources)
-            //.AddInMemoryApiScopes(Config.ApiScopes)
-            //.AddInMemoryClients(Config.Clients)
             .AddAspNetIdentity<ApplicationUser>()
             .AddConfigurationStore(options =>
             {
@@ -52,32 +53,16 @@ public static class HostingExtensions
                     b.UseSqlServer(builder.Configuration.GetConnectionString("Database"),
                         sql => sql.MigrationsAssembly(migrationsAssembly));
             })
-            //.AddLicenseSummary()
-            .AddDeveloperSigningCredential();
-            //.AddProfileService<ProfileService>();
-
-        //builder.Services.AddAuthentication()
-        //    .AddGoogle(options =>
-        //    {
-        //        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-        //        // register your IdentityServer with Google at https://console.developers.google.com
-        //        // enable the Google+ API
-        //        // set the redirect URI to https://localhost:5001/signin-google
-        //        options.ClientId = "copy client ID from Google here";
-        //        options.ClientSecret = "copy client secret from Google here";
-        //    });
+            //.AddDeveloperSigningCredential();
+            .AddSigningCredential(certificate);
 
         builder.Services.AddScoped<IDatabaseInitialize, DatabaseInitialize>();
-        //builder.Services.AddScoped<IProfileService, ProfileService>();
 
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
-        //app.UseSerilogRequestLogging();
-
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -86,7 +71,6 @@ public static class HostingExtensions
         app.UseStaticFiles();
         app.UseRouting();
         app.UseIdentityServer();
-        //app.UseAuthorization();
         app.UseAuthorization();
 
         app.MapRazorPages()
