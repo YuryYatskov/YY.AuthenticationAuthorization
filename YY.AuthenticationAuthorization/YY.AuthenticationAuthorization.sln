@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientMVC", "IS\ClientMVC\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerAPI", "IS\IdentityServerAPI\IdentityServerAPI.csproj", "{F74D9125-9201-4823-B81C-C002A510F953}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptographyX509Certificates", "IS\CryptographyX509Certificates\CryptographyX509Certificates.csproj", "{9EC4AE0A-46E3-445E-9BED-289B8696A2DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{F74D9125-9201-4823-B81C-C002A510F953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F74D9125-9201-4823-B81C-C002A510F953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F74D9125-9201-4823-B81C-C002A510F953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EC4AE0A-46E3-445E-9BED-289B8696A2DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EC4AE0A-46E3-445E-9BED-289B8696A2DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EC4AE0A-46E3-445E-9BED-289B8696A2DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EC4AE0A-46E3-445E-9BED-289B8696A2DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{F78C84DF-14E7-AEAB-6D06-17D9B2678CB7} = {1B750133-C06E-4150-9D41-66C81AEEF5C8}
 		{DA323F13-178E-3D93-60AD-BA9F3395B066} = {1B750133-C06E-4150-9D41-66C81AEEF5C8}
 		{F74D9125-9201-4823-B81C-C002A510F953} = {1B750133-C06E-4150-9D41-66C81AEEF5C8}
+		{9EC4AE0A-46E3-445E-9BED-289B8696A2DF} = {1B750133-C06E-4150-9D41-66C81AEEF5C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B86D390B-6861-485C-82F5-37E6F4E5798D}
